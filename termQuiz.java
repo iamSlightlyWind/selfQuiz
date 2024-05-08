@@ -6,25 +6,29 @@ import java.util.Scanner;
 
 public class termQuiz {
 
-    static String currentDirectory = "";
+    static String currentFile = "";
 
     public static void main(String[] args) throws FileNotFoundException {
-        currentDirectory = System.getProperty("user.dir");
+        currentFile = System.getProperty("user.dir");
 
         System.out.println("---- iamSlightlywind/selfQuiz ----\n");
         System.out.println("Select question library:");
 
-        chooseDirectory();
-        chooseDirectory();
-        chooseDirectory();
-        chooseDirectory();
+        File current = new File(currentFile);
+
+        while (!current.isFile()) {
+            chooseFile();
+            current = new File(currentFile);
+        }
+
+        readFile();
     }
 
-    public static void chooseDirectory() {
+    public static void chooseFile() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\n" + currentDirectory);
+        System.out.println("\n" + currentFile);
 
-        List<String> files = getFileList(currentDirectory);
+        List<String> files = getFileList(currentFile);
         System.out.println("0. ../");
 
         for (int i = 1; i < files.size(); i++) {
@@ -35,9 +39,9 @@ public class termQuiz {
         int choice = Integer.parseInt(scanner.nextLine());
 
         if (choice > 0 && choice < files.size()) {
-            currentDirectory += "/" + files.get(choice);
+            currentFile += "/" + files.get(choice);
         } else if (choice == 0) {
-            currentDirectory = currentDirectory.substring(0, currentDirectory.lastIndexOf("/"));
+            currentFile = currentFile.substring(0, currentFile.lastIndexOf("/"));
         }
     }
 
@@ -47,7 +51,7 @@ public class termQuiz {
         File[] files = new File(directory).listFiles();
 
         for (File file : files) {
-            if(file.isDirectory()){
+            if (file.isDirectory()) {
                 results.add(file.getName() + "/");
             } else {
                 results.add(file.getName());
@@ -57,8 +61,8 @@ public class termQuiz {
         return results;
     }
 
-    public static void readFile(String name) throws FileNotFoundException {
-        File file = new File(name);
+    public static void readFile() throws FileNotFoundException {
+        File file = new File(currentFile);
         Scanner reader = new Scanner(file);
 
         while (reader.hasNextLine()) {
