@@ -1,13 +1,18 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class termQuiz {
 
     static String currentFile = "";
-    static ArrayList<QnA> question = new ArrayList<>();
+    static ArrayList<QnA> questionList = new ArrayList<>();
+    static Scanner scan = new Scanner(System.in);
+
+    static int questionSize = 0;
 
     public static void main(String[] args) throws FileNotFoundException {
         currentFile = System.getProperty("user.dir");
@@ -24,19 +29,63 @@ public class termQuiz {
 
         readFile();
 
-        for (QnA qna : question) {
-            System.out.println(qna.question + " ");
-            System.out.print(qna.answer + "\n\n");
+        getQuizModifiers();
+    }
+
+    public static int random() {
+        Random random = new Random();
+        return random.nextInt(questionSize);
+    }
+
+    public static ArrayList<String> getRandomAnswer(QnA currentQuestion) {
+        ArrayList<String> answerList = new ArrayList<>();
+
+        answerList.add(currentQuestion.answer);
+
+        while (answerList.size() < 4) {
+            boolean duplicated = true;
+            String newAnswer = "";
+
+            while (duplicated) {
+                duplicated = false;
+                newAnswer = questionList.get(random()).answer;
+                for (int i = 0; i < answerList.size(); i++) {
+                    if (newAnswer.equals(answerList.get(i))) {
+                        duplicated = true;
+                    }
+                }
+            }
+            answerList.add(newAnswer);
+
+        }
+
+        Collections.shuffle(answerList);
+        return answerList;
+    }
+
+    public static void startQuiz(boolean modifierCount, int count, boolean modifierCorrect) {
+        int attempt = 0;
+        int questionAsked = 0;
+
+        if (!modifierCount) {
+            int total = questionList.size() - 1;
+            int current = random();
+
+            if (questionList.get(current).correct == false) {
+                System.out.println(questionList.get(current).question);
+                ArrayList<String> answerList = getRandomAnswer(questionList.get(current));
+                for(int i = 0; i < answerList.size(); i++) {
+                    System.out.println((i + 1) + ". " + answerList.get(i));
+                }
+            }
         }
     }
 
-    public static void getQuizModifiers(){
+    public static void getQuizModifiers() {
         int count = 0;
 
         boolean modifierCount = false;
         boolean modifierCorrect = false;
-
-        Scanner scan = new Scanner(System.in);
 
         System.out.println("How would you want to be quized?\n");
 
@@ -45,20 +94,23 @@ public class termQuiz {
         System.out.print("Choice: ");
         modifierCount = Integer.parseInt(scan.nextLine()) == 2;
 
-        System.out.println();
-        System.out.println("How many times per question?");
-        System.out.print("Count: ");
-        count = Integer.parseInt(scan.nextLine());
+        if (modifierCount) {
+            System.out.println();
+            System.out.println("How many times per question?");
+            System.out.print("Count: ");
+            count = Integer.parseInt(scan.nextLine());
+        }
 
         System.out.println();
         System.out.println("1. All attempt counts");
         System.out.println("2. Until all questions are correct");
         System.out.print("Choice: ");
         modifierCorrect = Integer.parseInt(scan.nextLine()) == 2;
+
+        startQuiz(modifierCount, count, modifierCorrect);
     }
 
     public static void chooseFile() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("\n" + currentFile);
 
         List<String> files = getFileList(currentFile);
@@ -69,7 +121,7 @@ public class termQuiz {
         }
 
         System.out.print("Change: ");
-        int choice = Integer.parseInt(scanner.nextLine());
+        int choice = Integer.parseInt(scan.nextLine());
 
         if (choice > 0 && choice < files.size()) {
             currentFile += "/" + files.get(choice);
@@ -104,8 +156,10 @@ public class termQuiz {
             if (data.equals("") || data.charAt(0) == '#')
                 continue;
 
-            question.add(new QnA(data));
+            questionList.add(new QnA(data));
         }
+
+        questionSize = questionList.size();
 
         reader.close();
     }
