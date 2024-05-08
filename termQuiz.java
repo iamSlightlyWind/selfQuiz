@@ -30,6 +30,33 @@ public class termQuiz {
         }
     }
 
+    public static void getQuizModifiers(){
+        int count = 0;
+
+        boolean modifierCount = false;
+        boolean modifierCorrect = false;
+
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("How would you want to be quized?\n");
+
+        System.out.println("1. Once per question");
+        System.out.println("2. Multiple times per question");
+        System.out.print("Choice: ");
+        modifierCount = Integer.parseInt(scan.nextLine()) == 2;
+
+        System.out.println();
+        System.out.println("How many times per question?");
+        System.out.print("Count: ");
+        count = Integer.parseInt(scan.nextLine());
+
+        System.out.println();
+        System.out.println("1. All attempt counts");
+        System.out.println("2. Until all questions are correct");
+        System.out.print("Choice: ");
+        modifierCorrect = Integer.parseInt(scan.nextLine()) == 2;
+    }
+
     public static void chooseFile() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n" + currentFile);

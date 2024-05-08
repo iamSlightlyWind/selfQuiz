@@ -1,6 +1,9 @@
 public class QnA {
     public String question, answer;
+    public int timeAsked = 0;
     public boolean correctFormat = true;
+    public boolean asked = false;
+    public boolean correct = false;
 
     public QnA(String qna) {
         String[] parts = qna.split("\\|");
