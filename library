@@ -1,23 +1,29 @@
-#I need you to generate some test data in the form of "Question" "Answer".
-"What is the capital of France?" "Paris"
-"What is the capital of Germany?" "Berlin"
-"What is the capital of Spain?" "Madrid"
-"What is the capital of Italy?" "Rome"
+#I need you to generate some test data in the form of Question|Answer.
+What is the capital of France?|Paris
+What is the capital of Germany?|Berlin
+What is the capital of Italy?|Rome
 
+#this right here is a comment
 
-#Comment
-"What is the capital of Portugal?" "Lisbon"
-"What is the capital of Belgium?" "Brussels"
-"What is the capital of the Netherlands?" "Amsterdam"
+What is the capital of Spain?|Madrid
+What is the capital of Portugal?|Lisbon
+What is the capital of the United Kingdom?|London
+What is the capital of the United States?|Washington D.C.
+What is the capital of Canada?|Ottawa
+What is the capital of Mexico?|Mexico City
+What is the capital of Brazil?|Brasilia
 
-"What is the capital of Luxembourg?" "Luxembourg"
-"What is the capital of Switzerland?" "Bern"
-#whatever this is
+#this is another comment
 
+What is the capital of Argentina?|Buenos Aires
+What is the capital of Australia?|Canberra
+What is the capital of New Zealand?|Wellington
+What is the capital of Japan?|Tokyo
+What is the capital of South Korea?|Seoul
+What is the capital of China?|Beijing
 
-"What is the capital of Austria?" "Vienna"
-"What is the capital of Poland?" "Warsaw"
-"What is the capital of Czech Republic?" "Prague"
-"What is the capital of Slovakia?" "Bratislava"
-"What is the capital of Hungary?" "Budapest"
-"What is the capital of Slovenia?" "Ljubljana"
+#this is a comment
+
+What is the capital of India?|New Delhi
+What is the capital of Russia?|Moscow
+What is the capital of South Africa?|Pretoria

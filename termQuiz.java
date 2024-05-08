@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class termQuiz {
 
     static String currentFile = "";
+    static ArrayList<QnA> question = new ArrayList<>();
 
     public static void main(String[] args) throws FileNotFoundException {
         currentFile = System.getProperty("user.dir");
@@ -22,6 +23,11 @@ public class termQuiz {
         }
 
         readFile();
+
+        for (QnA qna : question) {
+            System.out.println(qna.question + " ");
+            System.out.print(qna.answer + "\n\n");
+        }
     }
 
     public static void chooseFile() {
@@ -71,7 +77,7 @@ public class termQuiz {
             if (data.equals("") || data.charAt(0) == '#')
                 continue;
 
-            System.out.println(data);
+            question.add(new QnA(data));
         }
 
         reader.close();
