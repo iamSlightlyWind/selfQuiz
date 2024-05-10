@@ -12,8 +12,6 @@ public class termQuiz {
     static ArrayList<QnA> questionList = new ArrayList<>();
     static Scanner scan = new Scanner(System.in);
 
-    static int questionSize = 0;
-
     public static void main(String[] args) throws FileNotFoundException {
         currentFile = System.getProperty("user.dir");
 
@@ -34,7 +32,7 @@ public class termQuiz {
 
     public static int random() {
         Random random = new Random();
-        return random.nextInt(questionSize);
+        return random.nextInt(questionList.size());
     }
 
     public static ArrayList<String> getRandomAnswer(QnA currentQuestion) {
@@ -66,24 +64,23 @@ public class termQuiz {
     public static void startQuiz(boolean modifierCount, int count, boolean modifierCorrect) {
         int attempt = 0;
         int questionAsked = 0;
+        int current = 0;
+        int pass = 0;
 
         System.out.println();
 
         if (!modifierCount) {
-            int total = questionList.size() - 1;
-            int current = 0;
 
-            while (questionAsked < questionSize) {
-                if(modifierCorrect && attempt == questionSize){
+            while (questionAsked < questionList.size()) {
+                if (modifierCorrect && attempt == questionList.size()) {
                     break;
                 }
 
-                System.out.println();
                 current = random();
 
                 if (questionList.get(current).correct == false) {
-                    
-                    if(modifierCorrect && questionList.get(current).asked){
+
+                    if (modifierCorrect && questionList.get(current).asked) {
                         continue;
                     }
 
@@ -98,6 +95,7 @@ public class termQuiz {
                         questionList.get(current).correct = true;
                         questionAsked++;
                         System.out.println("Correct!");
+                        pass++;
                     } else {
                         System.out.println("Incorrect!");
                     }
@@ -105,7 +103,37 @@ public class termQuiz {
                     attempt++;
                 }
             }
+        } else {
+            while (questionAsked < questionList.size() - 1) {
+                current = random();
+                if (questionList.get(current).timeAsked < count) {
+                    System.out.println(questionList.get(current).question);
+                    ArrayList<String> answerList = getRandomAnswer(questionList.get(current));
+                    for (int i = 0; i < answerList.size(); i++) {
+                        System.out.println((i + 1) + ". " + answerList.get(i));
+                    }
+
+                    int choice = Integer.parseInt(scan.nextLine());
+                    if (answerList.get(choice - 1).equals(questionList.get(current).answer)) {
+                        questionList.get(current).correct = true;
+                        System.out.println("Correct!");
+                        questionList.get(current).timeAsked += 1;
+                        pass++;
+                    } else {
+                        System.out.println("Incorrect!");
+                        questionList.get(current).timeAsked += 1;
+                    }
+                    questionList.get(current).asked = true;
+                    attempt++;
+                } else if (questionList.get(current).timeAsked == 2) {
+                    questionList.get(current).timeAsked++;
+                    questionAsked++;
+                }
+            }
         }
+        System.out.println("Time answered: " + attempt);
+        System.out.println("Correct Answers: " + pass);
+        System.out.println("Result: " + ((float) pass / (float) attempt));
     }
 
     public static void getQuizModifiers() {
@@ -126,13 +154,15 @@ public class termQuiz {
             System.out.println("How many times per question?");
             System.out.print("Count: ");
             count = Integer.parseInt(scan.nextLine());
+        } else {
+            System.out.println();
+            System.out.println("1. All attempt counts");
+            System.out.println("2. Until all questions are correct");
+            System.out.print("Choice: ");
+            modifierCorrect = Integer.parseInt(scan.nextLine()) == 1;
         }
 
-        System.out.println();
-        System.out.println("1. All attempt counts");
-        System.out.println("2. Until all questions are correct");
-        System.out.print("Choice: ");
-        modifierCorrect = Integer.parseInt(scan.nextLine()) == 1;
+        System.out.println("Library count: " + questionList.size());
 
         startQuiz(modifierCount, count, modifierCorrect);
     }
@@ -185,8 +215,6 @@ public class termQuiz {
 
             questionList.add(new QnA(data));
         }
-
-        questionSize = questionList.size();
 
         reader.close();
     }
