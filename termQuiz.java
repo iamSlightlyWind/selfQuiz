@@ -125,7 +125,7 @@ public class termQuiz {
                     }
                     questionList.get(current).asked = true;
                     attempt++;
-                } else if (questionList.get(current).timeAsked == 2) {
+                } else if (questionList.get(current).timeAsked == count) {
                     questionList.get(current).timeAsked++;
                     questionAsked++;
                 }
