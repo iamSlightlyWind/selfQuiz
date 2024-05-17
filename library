@@ -1,9 +1,11 @@
-#I need you to generate some test data in the form of Question|Answer.
-What is the capital of France?|Paris
-
-What is the capital of Italy?|Rome
-
-#this right here is a comment
-
-What is the capital of Spain?|Madrid
-What is the capital of Portugal?|Lisbon
+ㅏ|a
+ㅑ|ya
+ㅓ|o
+ㅕ|yo
+ㅗ|ô
+ㅛ|yô
+ㅜ|u
+ㅠ|yu
+ㅡ|ư
+ㅣ|i
+>>>>>>> 49b1ae9 (Minor formatting)

@@ -32,7 +32,7 @@ public class termQuiz {
 
     public static int random() {
         Random random = new Random();
-        return random.nextInt(questionList.size());
+        return random.nextInt(questionList.size() - 1);
     }
 
     public static ArrayList<String> getRandomAnswer(QnA currentQuestion) {
