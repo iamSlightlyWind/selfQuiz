@@ -72,7 +72,7 @@ public class termQuiz {
         if (!modifierCount) {
 
             while (questionAsked < questionList.size()) {
-                if (modifierCorrect && attempt == questionList.size()) {
+                if (modifierCorrect && attempt + 1 == questionList.size()) {
                     break;
                 }
 
